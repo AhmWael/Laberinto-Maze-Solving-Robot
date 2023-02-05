@@ -16,4 +16,7 @@ void read_all_TOFs () {
 //    Serial.print("TOF_R : ");
 //    Serial.println(TOF_R);
   }
+
+  //mo2akatan
+  TOF_L = 201;
 }

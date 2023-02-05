@@ -6,12 +6,12 @@ void read_Cameras() {
   Cam_1_R = digitalRead(Cam_1_R_pin);
   Cam_2_R = digitalRead(Cam_2_R_pin);
   Cam_3_R = digitalRead(Cam_3_R_pin);
-  Serial.print("Cam_1_R: ");
-  Serial.print(Cam_1_R);
-  Serial.print("\tCam_2_R: ");
-  Serial.print(Cam_2_R);
-  Serial.print("\tCam_3_R: ");
-  Serial.println(Cam_3_R);
+  //Serial.print("Cam_1_R: ");
+  //Serial.print(Cam_1_R);
+  //Serial.print("\tCam_2_R: ");
+  //Serial.print(Cam_2_R);
+  //Serial.print("\tCam_3_R: ");
+  //Serial.println(Cam_3_R);
   
 //  if (Cam_1_R == 1 || Cam_2_R == 1 || Cam_3_R == 1){
 //    Serial.println(" Right Camera Serial --> U Found ");
@@ -32,10 +32,10 @@ void read_Cameras() {
 //    Serial.println(" Right Camera Serial --> Nothing_Cam_2 ");
 //  }
   if (Cam_1_R == 0 && Cam_2_R == 0 && Cam_3_R == 0) {
-    Serial.println(" Right Camera Serial --> Nothing_Cam_1 ");
+    //Serial.println(" Right Camera Serial --> Nothing_Cam_1 ");
   }
   else if (Cam_1_R == 0 && Cam_2_R == 1 && Cam_3_R == 0) {
-    Serial.println(" Right Camera Serial --> Green Found ");
+    //Serial.println(" Right Camera Serial --> Green Found ");
     timer = millis();
     //      Serial.print(millis());
     //      Serial.print("\t");
@@ -50,7 +50,7 @@ void read_Cameras() {
     digitalWrite(buzzer, LOW);
   }
   else if (Cam_1_R == 0 && Cam_2_R == 1 && Cam_3_R == 1) {
-    Serial.println(" Right Camera Serial --> Yellow Found ");
+    //Serial.println(" Right Camera Serial --> Yellow Found ");
     timer = millis();
     //      Serial.print(millis());
     //      Serial.print("\t");
@@ -65,7 +65,7 @@ void read_Cameras() {
     digitalWrite(buzzer, LOW);
   }
   else if (Cam_1_R == 1 && Cam_2_R == 0 && Cam_3_R == 0) {
-    Serial.println(" Right Camera Serial --> Red Found ");
+    //Serial.println(" Right Camera Serial --> Red Found ");
     timer = millis();
     //      Serial.print(millis());
     //      Serial.print("\t");
@@ -80,7 +80,7 @@ void read_Cameras() {
     digitalWrite(buzzer, LOW);
   }
   else if (Cam_1_R == 1 && Cam_2_R == 0 && Cam_3_R == 1) {
-    Serial.println(" Right Camera Serial --> U Found ");
+    //Serial.println(" Right Camera Serial --> U Found ");
     timer = millis();
     //      Serial.print(millis());
     //      Serial.print("\t");
@@ -95,7 +95,7 @@ void read_Cameras() {
     digitalWrite(buzzer, LOW);
   }
   else if (Cam_1_R == 1 && Cam_2_R == 1 && Cam_3_R == 0) {
-    Serial.println(" Right Camera Serial --> S Found ");
+    //Serial.println(" Right Camera Serial --> S Found ");
     timer = millis();
     //      Serial.print(millis());
     //      Serial.print("\t");
@@ -110,7 +110,7 @@ void read_Cameras() {
     digitalWrite(buzzer, LOW);
   }
   else if (Cam_1_R == 0 && Cam_2_R == 0 && Cam_3_R == 1) {
-    Serial.println(" Right Camera Serial --> H Found ");
+    //Serial.println(" Right Camera Serial --> H Found ");
     timer = millis();
     //      Serial.print(millis());
     //      Serial.print("\t");

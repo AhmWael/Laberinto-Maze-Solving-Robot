@@ -4,13 +4,13 @@
 #define ENCAr 3 // YELLOW
 #define ENCBr 2 // WHITE
 #define r_pwm 12
-#define r_dir 9
+#define l_dir 9
 #define ENCAl 21 // YELLOW
 #define ENCBl 20 // WHITE
 #define l_pwm 10
-#define l_dir 11
+#define r_dir 11
 
-Servo servo;
+Servo myservo;
 
 //TOF Serial Communication
 String received_dist_1, received_dist_2, received_dist_3;
@@ -30,13 +30,6 @@ float eprev = 0;
 float eintegral = 0;
 int turn_rounds = 2;
 
-//////////////////////////////////////////////////////
-int robot_dir = 0; // 0 --> North, 1 --> East, 2 --> South, 3 --> West
-int x_maze = 30, y_maze = 30;
-int x_max = 30, x_min = 30, y_max = 30, y_min = 30;
-char maze[60][60];
-//////////////////////////////////////////////////////
-
 //Digital Communication Right Camera
 #define Cam_1_R_pin 51 //Left_bit //27    7 -- 49
 #define Cam_2_R_pin 53 //Center_bit //29  8 -- 47
@@ -52,6 +45,11 @@ bool Cam_1_L, Cam_2_L, Cam_3_L, Cam_1_R, Cam_2_R, Cam_3_R, Col_1, Col_2;
 #define Col_2_pin 43
 
 #define buzzer 37
+
+int robot_dir = 0; // 0 --> North, 1 --> East, 2 --> South, 3 --> West
+int x_maze = 30, y_maze = 30;
+int x_max = 30, x_min = 30, y_max = 30, y_min = 30;
+char maze[60][60];
 
 void setup() {
   Serial.begin(115200);
@@ -69,7 +67,7 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(ENCAr), readEncoder1, RISING);
   attachInterrupt(digitalPinToInterrupt(ENCAl), readEncoder2, RISING);
 
-  servo.attach(35);
+  myservo.attach(35);
   
   //  pinMode(PWM,OUTPUT);
   //  pinMode(IN1,OUTPUT);
@@ -87,6 +85,8 @@ void setup() {
   pinMode(buzzer, OUTPUT);
 
   digitalWrite(buzzer, LOW);
+
+  initialise_the_map();
 
   //  Serial.println("target pos");
   delay(2500);

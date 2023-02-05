@@ -80,7 +80,7 @@ bool isFW() {
 void search_for_walls() {
   read_all_TOFs();
   bool fw = 0, lw = 0, rw = 0;
-  if (TOF_C <= 140)
+  if (TOF_C <= 130)
     fw = 1;
   if (TOF_L <= 200)
     lw = 1;
@@ -92,19 +92,22 @@ void search_for_walls() {
       maze[x_maze][y_maze + 1] = '#';
     }
     else {
-      maze[x_maze][y_maze + 1] = ' ';
+      if (maze[x_maze][y_maze + 2] != 'B')
+        maze[x_maze][y_maze + 1] = ' ';
     }
     if (isValidWalls(x_maze + 1, y_maze) && (rw)) {
       maze[x_maze + 1][y_maze] = '#';
     }
     else {
-      maze[x_maze + 1][y_maze] = ' ';
+      if (maze[x_maze + 2][y_maze] != 'B')
+        maze[x_maze + 1][y_maze] = ' ';
     }
     if (isValidWalls(x_maze - 1, y_maze) && (lw)) {
       maze[x_maze - 1][y_maze] = '#';
     }
     else {
-      maze[x_maze - 1][y_maze] = ' ';
+      if (maze[x_maze - 2][y_maze] != 'B')
+        maze[x_maze - 1][y_maze] = ' ';
     }
   }
 
@@ -113,19 +116,22 @@ void search_for_walls() {
       maze[x_maze][y_maze + 1] = '#';
     }
     else {
-      maze[x_maze][y_maze + 1] = ' ';
+      if (maze[x_maze][y_maze + 2] != 'B')
+        maze[x_maze][y_maze + 1] = ' ';
     }
     if (isValidWalls(x_maze + 1, y_maze) && (fw)) {
       maze[x_maze + 1][y_maze] = '#';
     }
     else {
-      maze[x_maze + 1][y_maze] = ' ';
+      if (maze[x_maze + 2][y_maze] != 'B')
+        maze[x_maze + 1][y_maze] = ' ';
     }
     if (isValidWalls(x_maze, y_maze - 1) && (rw)) {
       maze[x_maze][y_maze - 1] = '#';
     }
     else {
-      maze[x_maze][y_maze - 1] = ' ';
+      if (maze[x_maze][y_maze - 2] != 'B')
+        maze[x_maze][y_maze - 1] = ' ';
     }
   }
   
@@ -134,19 +140,22 @@ void search_for_walls() {
       maze[x_maze][y_maze - 1] = '#';
     }
     else {
-      maze[x_maze][y_maze - 1] = ' ';
+      if (maze[x_maze][y_maze - 2] != 'B')
+        maze[x_maze][y_maze - 1] = ' ';
     }
     if (isValidWalls(x_maze + 1, y_maze) && (lw)) {
       maze[x_maze + 1][y_maze] = '#';
     }
     else {
-      maze[x_maze + 1][y_maze] = ' ';
+      if (maze[x_maze + 2][y_maze] != 'B')
+        maze[x_maze + 1][y_maze] = ' ';
     }
     if (isValidWalls(x_maze - 1, y_maze) && (rw)) {
       maze[x_maze - 1][y_maze] = '#';
     }
     else {
-      maze[x_maze - 1][y_maze] = ' ';
+      if (maze[x_maze - 2][y_maze] != 'B')
+        maze[x_maze - 1][y_maze] = ' ';
     }
   }
 
@@ -155,19 +164,22 @@ void search_for_walls() {
       maze[x_maze][y_maze + 1] = '#';
     }
     else {
-      maze[x_maze][y_maze + 1] = ' ';
+      if (maze[x_maze][y_maze + 2] != 'B')
+        maze[x_maze][y_maze + 1] = ' ';
     }
     if (isValidWalls(x_maze - 1, y_maze) && (fw)) {
       maze[x_maze - 1][y_maze] = '#';
     }
     else {
-      maze[x_maze - 1][y_maze] = ' ';
+      if (maze[x_maze - 2][y_maze] != 'B')
+        maze[x_maze - 1][y_maze] = ' ';
     }
     if (isValidWalls(x_maze, y_maze - 1) && (lw)) {
       maze[x_maze][y_maze - 1] = '#';
     }
     else {
-      maze[x_maze][y_maze - 1] = ' ';
+      if (maze[x_maze][y_maze - 2] != 'B')
+        maze[x_maze][y_maze - 1] = ' ';
     }
   }
 }
