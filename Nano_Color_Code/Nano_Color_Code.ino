@@ -1,7 +1,7 @@
 #include "Adafruit_APDS9960.h"
 Adafruit_APDS9960 apds;
-int signal1 = 11 ;
-int signal2 = 12 ;
+int signal1 = 3 ;
+int signal2 = 4 ;
 
 void setup() {
   Serial.begin(115200);
