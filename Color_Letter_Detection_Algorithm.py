@@ -63,11 +63,11 @@ while(True):
             pin0.value(1)
             pin1.value(0)
             pin2.value(0)
-            time.sleep(1)
+            time.sleep(1.5)
             pin0.value(0)
             pin1.value(0)
             pin2.value(0)
-            time.sleep(5)
+            time.sleep(7)
             letter_counter = 0
             letter_to_send = 'N'
             break
@@ -88,11 +88,11 @@ while(True):
             pin0.value(0)
             pin1.value(1)
             pin2.value(0)
-            time.sleep(1)
+            time.sleep(1.5)
             pin0.value(0)
             pin1.value(0)
             pin2.value(0)
-            time.sleep(5)
+            time.sleep(7)
             letter_counter = 0
             letter_to_send = 'N'
             break
@@ -113,11 +113,11 @@ while(True):
             pin0.value(0)
             pin1.value(1)
             pin2.value(1)
-            time.sleep(1)
+            time.sleep(1.5)
             pin0.value(0)
             pin1.value(0)
             pin2.value(0)
-            time.sleep(5)
+            time.sleep(7)
             letter_counter = 0
             letter_to_send = 'N'
             break
@@ -247,11 +247,11 @@ while(True):
                     pin0.value(0)
                     pin1.value(0)
                     pin2.value(1)
-                    time.sleep(1)
+                    time.sleep(1.5)
                     pin0.value(0)
                     pin1.value(0)
                     pin2.value(0)
-                    time.sleep(5)
+                    time.sleep(7)
                     letter_counter = 0
                     letter_to_send = 'N'
                 continue
@@ -268,11 +268,11 @@ while(True):
                     pin0.value(1)
                     pin1.value(0)
                     pin2.value(1)
-                    time.sleep(3)
+                    time.sleep(1.5)#3
                     pin0.value(0)
                     pin1.value(0)
                     pin2.value(0)
-                    time.sleep(5)
+                    time.sleep(7)
                     letter_counter = 0
                     letter_to_send = 'N'
                 continue
@@ -290,11 +290,11 @@ while(True):
                     pin0.value(1)
                     pin1.value(1)
                     pin2.value(0)
-                    time.sleep(1)
+                    time.sleep(1.5)
                     pin0.value(0)
                     pin1.value(0)
                     pin2.value(0)
-                    time.sleep(5)
+                    time.sleep(7)
                     letter_counter = 0
                     letter_to_send = 'N'
                 continue
