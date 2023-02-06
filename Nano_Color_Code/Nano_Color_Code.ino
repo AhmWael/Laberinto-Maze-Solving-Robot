@@ -41,7 +41,7 @@ void loop() {
   Serial.println(c);
   Serial.println();
 
-  if((r<40) && (g<40) && (b<40))
+  if((r<70) && (g<70) && (b<70))
   {
     Serial.println(" BLACK Detected: ");
     digitalWrite(signal1,HIGH);
@@ -55,7 +55,7 @@ void loop() {
     digitalWrite(signal2,HIGH);
   }
 
-  else if((r>350) && (g>350) && (b>350))
+  else
   {
     Serial.println(" WHITE Detected: ");
     digitalWrite(signal1,LOW);
