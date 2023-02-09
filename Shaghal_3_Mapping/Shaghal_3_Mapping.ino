@@ -34,6 +34,7 @@ float eintegral = 0;
 int turn_rounds = 2;
 
 int black_count = 0;
+bool last_blue = false;
 
 //Digital Communication Right Camera
 #define Cam_1_R_pin 51 //Left_bit //27    7 -- 49
@@ -73,6 +74,7 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(ENCAl), readEncoder2, RISING);
 
   myservo.attach(37);
+  myservo.write(62);
   
   //  pinMode(PWM,OUTPUT);
   //  pinMode(IN1,OUTPUT);

@@ -16,7 +16,8 @@ void Solve() {
   read_all_TOFs();
   read_Cameras();
   read_Color();
-  if (isBlue() == true) {
+  if (isBlue() == true && !last_blue) {
+    last_blue = true;
     timer = millis();
     while (millis() - timer <= 5000) {
       read_all_TOFs();
@@ -25,6 +26,7 @@ void Solve() {
 
     }
   }
+  
 //    Serial.print("TOF_C:");
 //    Serial.print(TOF_C);
 //    Serial.print("\tTOF_R:");

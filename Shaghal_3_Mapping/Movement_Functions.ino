@@ -11,6 +11,7 @@ void MoveWheels (bool dir_l, int speed_l, bool dir_r, int speed_r, String to_pri
 void Move(char movement_dir) {
   read_all_TOFs();
   if (movement_dir == 'F') {
+    last_blue = false;
 //    if (robot_dir == 0) {
 //      y_maze += 2;
 //      y_max = max(y_max, y_maze);
