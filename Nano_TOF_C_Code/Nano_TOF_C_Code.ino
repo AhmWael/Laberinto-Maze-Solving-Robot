@@ -5,7 +5,6 @@ Adafruit_VL53L0X lox = Adafruit_VL53L0X();
 int dist;//max --> 19528
 void setup() {
   Serial.begin(115200);
-
   // wait until serial port opens for native USB devices
   while (! Serial) {
     delay(1);

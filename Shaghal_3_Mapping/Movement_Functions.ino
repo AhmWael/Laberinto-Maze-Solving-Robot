@@ -11,26 +11,42 @@ void MoveWheels (bool dir_l, int speed_l, bool dir_r, int speed_r, String to_pri
 void Move(char movement_dir) {
   read_all_TOFs();
   if (movement_dir == 'F') {
-    if (robot_dir == 0) {
-      y_maze += 2;
-      y_max = max(y_max, y_maze);
-    }
-    else if (robot_dir == 1) {
-      x_maze += 2;
-      x_max = max(x_max, x_maze);
-    }
-    else if (robot_dir == 2) {
-      y_maze -= 2;
-      y_min = min(y_min, y_maze);
-    }
-    else {
-      x_maze -= 2;
-      x_min = min(x_min, x_maze);
-    }
+//    if (robot_dir == 0) {
+//      y_maze += 2;
+//      y_max = max(y_max, y_maze);
+//    }
+//    else if (robot_dir == 1) {
+//      x_maze += 2;
+//      x_max = max(x_max, x_maze);
+//    }
+//    else if (robot_dir == 2) {
+//      y_maze -= 2;
+//      y_min = min(y_min, y_maze);
+//    }
+//    else {
+//      x_maze -= 2;
+//      x_min = min(x_min, x_maze);
+//    }
     while ((((posir + posil2) / 2) <= (tile_length * 1)) && (TOF_C > 70)) {
       read_all_TOFs();
       read_Cameras();
       if (isBlack()) {
+        if (robot_dir == 0) {
+          y_maze += 2;
+//          y_max = max(y_max, y_maze);
+        }
+        else if (robot_dir == 1) {
+          x_maze += 2;
+//          x_max = max(x_max, x_maze);
+        }
+        else if (robot_dir == 2) {
+          y_maze -= 2;
+//          y_min = min(y_min, y_maze);
+        }
+        else {
+          x_maze -= 2;
+//          x_min = min(x_min, x_maze);
+        }
         maze[x_maze][y_maze] = 'B';
         maze[x_maze][y_maze + 1] = '#';
         maze[x_maze + 1][y_maze] = '#';
@@ -58,9 +74,9 @@ void Move(char movement_dir) {
           x_max = max(x_max, x_maze);
         }
 
-        // return ;
+         return ;
       }
-      if (TOF_R < 85)
+      if (TOF_R < 70)
       {
         int temp_posil = posil2;
         int temp_posir = posir;
@@ -126,6 +142,25 @@ void Move(char movement_dir) {
     //    Serial.print(posir);
     //    Serial.print("\tposil: ");
     //    Serial.println(posil);
+    if (((posir + posil2) / 2) < (tile_length * 7 / 8)) {
+      return ;
+    }
+    if (robot_dir == 0) {
+      y_maze += 2;
+      y_max = max(y_max, y_maze);
+    }
+    else if (robot_dir == 1) {
+      x_maze += 2;
+      x_max = max(x_max, x_maze);
+    }
+    else if (robot_dir == 2) {
+      y_maze -= 2;
+      y_min = min(y_min, y_maze);
+    }
+    else {
+      x_maze -= 2;
+      x_min = min(x_min, x_maze);
+    }
     tile_length = 1000;
     posir = 0;
     posil = 0;
@@ -156,7 +191,7 @@ void Move(char movement_dir) {
     }
     //    Serial.println("##################################");
     //    Serial.println("New Tile Reached");
-    tile_length = 1000;
+    tile_length = 1200;
     posir = 0;
     posil = 0;
     robot_dir = (robot_dir + 1) % 4;
@@ -183,7 +218,7 @@ void Move(char movement_dir) {
     }
     //    Serial.println("##################################");
     //    Serial.println("New Tile Reached");
-    tile_length = 1000;
+    tile_length = 1100;
     posir = 0;
     posil = 0;
     robot_dir = (robot_dir + 3) % 4;

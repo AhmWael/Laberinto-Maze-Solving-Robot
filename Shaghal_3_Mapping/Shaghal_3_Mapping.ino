@@ -1,6 +1,8 @@
 #include <util/atomic.h> // For the ATOMIC_BLOCK macro
 #include <Servo.h>
 
+int started = 0;
+
 #define ENCAr 3 // YELLOW
 #define ENCBr 2 // WHITE
 #define r_pwm 12
@@ -19,6 +21,7 @@ int TOF_R, TOF_L, TOF_C;
 int pwm_L = 0;
 int pwm_R = 0;
 
+// Encoder data initialisation
 int left_pwm = 0;
 int right_pwm = 0;
 int general_pwm = -1;
@@ -30,21 +33,23 @@ float eprev = 0;
 float eintegral = 0;
 int turn_rounds = 2;
 
+int black_count = 0;
+
 //Digital Communication Right Camera
 #define Cam_1_R_pin 51 //Left_bit //27    7 -- 49
-#define Cam_2_R_pin 53 //Center_bit //29  8 -- 47
+#define Cam_2_R_pin 53 //Cen0ter_bit //29  8 -- 47
 #define Cam_3_R_pin 47 //Right_bit //31   9 -- 45
 bool Cam_1_L, Cam_2_L, Cam_3_L, Cam_1_R, Cam_2_R, Cam_3_R, Col_1, Col_2;
 
 //Tilt Sensor Pins
-#define tilt_f 33
-#define tilt_b 35
+#define tilt_f 39
+#define tilt_b 43
 
 //Digital Communication Nano Color
-#define Col_1_pin 41
-#define Col_2_pin 43
+#define Col_1_pin 35
+#define Col_2_pin 31
 
-#define buzzer 37
+#define buzzer 45
 
 int robot_dir = 0; // 0 --> North, 1 --> East, 2 --> South, 3 --> West
 int x_maze = 30, y_maze = 30;
@@ -67,7 +72,7 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(ENCAr), readEncoder1, RISING);
   attachInterrupt(digitalPinToInterrupt(ENCAl), readEncoder2, RISING);
 
-  myservo.attach(35);
+  myservo.attach(37);
   
   //  pinMode(PWM,OUTPUT);
   //  pinMode(IN1,OUTPUT);
@@ -188,8 +193,14 @@ void loop() {
   //  Serial.println(right_pwm);
   //  Serial.print("PWM_L: ");
   //  Serial.println(left_pwm);
+  if (started == -1) {
+    MoveWheels(LOW, 0, LOW, 0, "Stop");
+    return ;
+  }
   while (millis() - timer <= 750) {
   read_all_TOFs();
   }
   Solve();
+  if (started == 0)
+    started = 1;
 }

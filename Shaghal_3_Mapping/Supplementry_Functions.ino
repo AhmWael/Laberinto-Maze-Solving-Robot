@@ -2,16 +2,31 @@
 //  
 //}
 
-void Victim_Found (char pos){
-  if(pos == 'r')
-  {
+void deploy_kit (char posik, int kits) {
+  if (posik == 'r') {
     digitalWrite(buzzer, HIGH);
-    
+    MoveWheels(LOW, 0, LOW, 0, "Stop");
+    timer = millis();
+    while ((kits > 0) || (millis() - timer <= 5000)) {
+      if (kits > 0) {
+        //        myservo.write(-5);
+        for (int pos = 55; pos <= 105; pos += 1) {//right
+          myservo.write(pos);
+          delay(15);
+        }
+//        for (int pos = 55; pos >= -5; pos -= 1) { //left
+//          myservo.write(pos);
+//          delay(15);
+//        }
+        myservo.write(55); // neutral
+        kits --;
+      }
+    }
+    //delay(4000);
+    digitalWrite(buzzer, LOW);
   }
-  else if(pos == 'l')
-  {
+
+  else if (posik == 'l') {
     digitalWrite(buzzer, HIGH);
   }
-  myservo.write(pos);
-  
 }
