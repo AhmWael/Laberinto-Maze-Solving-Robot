@@ -71,7 +71,7 @@ void setup() {
   digitalWrite(buzzer, LOW);
 
   myservo.attach(37);
-  myservo.write(62);
+  myservo.write(55);
   
 
   timer = millis();
