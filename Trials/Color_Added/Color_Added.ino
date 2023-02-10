@@ -49,6 +49,9 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(ENCAr), readEncoder1, RISING);
   attachInterrupt(digitalPinToInterrupt(ENCAl), readEncoder2, RISING);
 
+  pinMode(Col_1, INPUT);
+  pinMode(Col_2, INPUT);
+
   timer = millis();
   while (millis() - timer <= 2500) {
     read_all_TOFs();
