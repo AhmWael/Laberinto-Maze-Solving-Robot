@@ -13,7 +13,7 @@ void Move(char movement_dir) {
   read_all_TOFs();
   if (movement_dir == 'F') { // if the robot has to move forward according to the right hand rule
     while ((((posir + posil) / 2) <= (tile_length * 1)) && (TOF_C > 85)) { // to move one tile forward
-
+      read_Cameras();
       if (!isBlue())
       {
         blue_flag = 0;
@@ -32,9 +32,9 @@ void Move(char movement_dir) {
       }
       read_all_TOFs();
       if (isBlack()) {
-//        int temp_posil = posil, temp_posir = posir;
+        //        int temp_posil = posil, temp_posir = posir;
         posil = 0;
-        posir = 0; 
+        posir = 0;
         while (((posir + posil) / 2) >= -500) {
           MoveWheels(LOW, 200, LOW, 200, "Back");
         }
@@ -72,7 +72,7 @@ void Move(char movement_dir) {
     timer = millis();
     while (millis() - timer <= 500) { // wait half a second
       read_all_TOFs();
-
+      read_Cameras();
       if (!isBlue())
       {
         blue_flag = 0;
@@ -92,7 +92,7 @@ void Move(char movement_dir) {
     posil = 0;
     posir = 0;
     while (abs(posir - posil) <= 2750) { // turn 90 degrees to the right
-
+      read_Cameras();
       if (!isBlue())
       {
         blue_flag = 0;
@@ -105,7 +105,7 @@ void Move(char movement_dir) {
     timer = millis();
     while (millis() - timer <= 500) { // wait half a second
       read_all_TOFs();
-
+      read_Cameras();
       if (!isBlue())
       {
         blue_flag = 0;
@@ -124,7 +124,7 @@ void Move(char movement_dir) {
     posir = 0;
     posil = 0;
     while (abs(posir - posil) <= 2750) { // turn 90 degrees to the left
-
+      read_Cameras();
       if (!isBlue())
       {
         blue_flag = 0;
@@ -137,7 +137,7 @@ void Move(char movement_dir) {
     timer = millis();
     while (millis() - timer <= 500) { // wait half a second
       read_all_TOFs();
-
+      read_Cameras();
       if (!isBlue())
       {
         blue_flag = 0;

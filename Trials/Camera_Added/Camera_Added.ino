@@ -1,4 +1,5 @@
 #include <util/atomic.h> // For the ATOMIC_BLOCK macro
+#include <Servo.h>
 
 #define ENCAr 3 // YELLOW
 #define ENCBr 2 // WHITE
@@ -9,6 +10,7 @@
 #define l_pwm 10
 #define r_dir 11
 
+Servo myservo;
 
 String received_dist_1, received_dist_2, received_dist_3;
 int TOF_R, TOF_L, TOF_C;
@@ -33,6 +35,14 @@ int blue_counter = 0;
 bool black_flag = 0;
 int black_counter = 0;
 
+//Digital Communication Right Camera
+#define Cam_1_R_pin 51 //Left_bit //27    7 -- 49
+#define Cam_2_R_pin 53 //Cen0ter_bit //29  8 -- 47
+#define Cam_3_R_pin 47 //Right_bit //31   9 -- 45
+bool Cam_1_L, Cam_2_L, Cam_3_L, Cam_1_R, Cam_2_R, Cam_3_R;
+
+#define buzzer 45
+
 void setup() {
   Serial.begin(115200);
   //  Serial1.begin(115200);//9600
@@ -48,6 +58,21 @@ void setup() {
   pinMode(ENCBl, INPUT);
   attachInterrupt(digitalPinToInterrupt(ENCAr), readEncoder1, RISING);
   attachInterrupt(digitalPinToInterrupt(ENCAl), readEncoder2, RISING);
+
+  pinMode(Col_1, INPUT);
+  pinMode(Col_2, INPUT);
+
+  pinMode(Cam_1_R_pin, INPUT);
+  pinMode(Cam_2_R_pin, INPUT);
+  pinMode(Cam_3_R_pin, INPUT);
+
+  pinMode(buzzer, OUTPUT);
+
+  digitalWrite(buzzer, LOW);
+
+  myservo.attach(37);
+  myservo.write(62);
+  
 
   timer = millis();
   while (millis() - timer <= 2500) {

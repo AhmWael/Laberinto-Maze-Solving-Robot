@@ -1,5 +1,6 @@
 void Solve() {
   read_all_TOFs();
+  read_Cameras();
   /* for testing TOF
 //  Serial.print("TOF_C:");
 //  Serial.print(TOF_C);
