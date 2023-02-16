@@ -4,14 +4,14 @@ int signal1 = 7 ;
 int signal2 = 4 ;
 
 void setup() {
- Serial.begin(115200);
+  Serial.begin(115200);
   pinMode (signal1, OUTPUT);
   pinMode (signal2, OUTPUT);
-//
+  //
   if (!apds.begin()) {
     Serial.println("failed to initialize device! Please check your wiring.");
   }
- Serial.println("Device initialized!");
+  Serial.println("Device initialized!");
 
   //enable color sensign mode
   apds.enableColor(true);
@@ -41,38 +41,52 @@ void loop() {
   Serial.println(c);
   Serial.println();
 
-//  digitalWrite(signal1, HIGH);
-//  digitalWrite(signal2, HIGH);
-//  delay(1000);
-//  digitalWrite(signal1, LOW);
-//  digitalWrite(signal2, LOW);
-//  delay(1000);
-//  digitalWrite(signal1, LOW);
-//  digitalWrite(signal2, HIGH);
-//  delay(1000);
-//  digitalWrite(signal1, HIGH);
-//  digitalWrite(signal2, LOW);
-//  delay(1000);
-    if((r<70) && (g<70) && (b<70))
-    {
-      Serial.println(" BLACK Detected: ");
-      digitalWrite(signal1,HIGH);
-      digitalWrite(signal2,HIGH);
-    }
-  
-    else if((b-r >= 90) && (b-g >= 50) && (b > 150))
-    {
-      Serial.println(" BLUE Detected: ");
-      digitalWrite(signal1,LOW);
-      digitalWrite(signal2,HIGH);
-    }
-  
-    else
-    {
-      Serial.println(" WHITE Detected: ");
-      digitalWrite(signal1,LOW);
-      digitalWrite(signal2,LOW);
-    }
+  //  digitalWrite(signal1, HIGH);
+  //  digitalWrite(signal2, HIGH);
+  //  delay(1000);
+  //  digitalWrite(signal1, LOW);
+  //  digitalWrite(signal2, LOW);
+  //  delay(1000);
+  //  digitalWrite(signal1, LOW);
+  //  digitalWrite(signal2, HIGH);
+  //  delay(1000);
+  //  digitalWrite(signal1, HIGH);
+  //  digitalWrite(signal2, LOW);
+  //  delay(1000);
+  if ((r < 90) && (g < 90) && (b < 90))
+  {
+    Serial.println(" BLACK Detected: ");
+    digitalWrite(signal1, HIGH);
+    digitalWrite(signal2, HIGH);
+  }
+
+//  else if ((int(b - r) >= 50) && (int(b - g) >= 50) && (b > 150))
+//  {
+//    Serial.print("b-r : ");
+//    Serial.print(int(b - r));
+//    Serial.print("\tb-g : ");
+//    Serial.println(int(b - g));
+//    Serial.println(" BLUE Detected: ");
+//    digitalWrite(signal1, LOW);
+//    digitalWrite(signal2, HIGH);
+//  }
+  else if (r < 100 && g < 120 && b < 185)
+  {
+//    Serial.print("b-r : ");
+//    Serial.print(int(b - r));
+//    Serial.print("\tb-g : ");
+//    Serial.println(int(b - g));
+    Serial.println(" BLUE Detected: ");
+    digitalWrite(signal1, LOW);
+    digitalWrite(signal2, HIGH);
+  }
+
+  else
+  {
+    Serial.println(" WHITE Detected: ");
+    digitalWrite(signal1, LOW);
+    digitalWrite(signal2, LOW);
+  }
   //  delay(500);
   //  int red = digitalRead(r);
   //  int blue = digitalRead(b);
