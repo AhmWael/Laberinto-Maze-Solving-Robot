@@ -11,12 +11,29 @@ led2 = pyb.LED(2)
 led3 = pyb.LED(3)
 led2.on()
 
-blackthreshold = (0, 68)
+##Competition
+blackthreshold = (0, 71)
+
+#blackthreshold = (0, 84)
+#blackthreshold = (0, 87)
 #(0, 45, -128, 127, -128, 127)
 
-redthresholds = (13, 57, 40, 75, 2, 60)
-greenthresholds = (25, 54, -56, -21, 14, 51)
-yellowthresholds = (67, 81, -28, -5, 24, 74)
+#Competition
+redthresholds = (11, 51, 23, 82, 20, 70)
+greenthresholds = (17, 49, -61, -17, -10, 77)
+yellowthresholds = (42, 64, -36, -1, 24, 76)
+
+
+##School_Day
+#redthresholds = (14, 31, 24, 50, -13, 39)
+#greenthresholds = (21, 50, -38, -14, -13, 37)
+#yellowthresholds = (42, 65, -20, -2, 21, 64)
+
+##School_Night
+#blackthreshold = (0, 41)
+#redthresholds = (21, 68, 28, 82, -12, 66)
+#greenthresholds = (11, 31, -34, -14, -1, 29)
+#yellowthresholds = (34, 82, -23, -1, 26, 79)
 
 
 sensor.reset()
@@ -29,9 +46,11 @@ clock = time.clock()
 
 offset = 6
 offset_area = 12
-times_to_send = 10
+times_to_send = 7
 letter_counter = 0
 letter_to_send = 'N'
+color_bool = 0
+none_counter = 20
 
 pin0.value(0)
 pin1.value(0)
@@ -45,6 +64,7 @@ while(True):
     led2.off()
     led3.off()
 
+    color_bool = 0
 
     letter_blob = -1
 
@@ -52,25 +72,36 @@ while(True):
     green_blob = -1
     yellow_blob = -1
 
+    #print("letter to send = ", letter_to_send)
 
+    if (none_counter < 20):
+        print("just sent a vivtim")
+        pin0.value(0)
+        pin1.value(0)
+        pin2.value(0)
 
     for red_blob in img.find_blobs([redthresholds], pixels_threshold=150, area_threshold=100, merge=True):
         # These values depend on the blob not being circular - otherwise they will be shaky.
-        if(red_blob.area() > 1750):
-            print("RED Victim Found")
-            print("Red area = ", red_blob.area())
-            img.draw_rectangle(red_blob.rect(), color=(255,255,255))
-            pin0.value(1)
-            pin1.value(0)
-            pin2.value(0)
-            time.sleep(1.5)
-            pin0.value(0)
-            pin1.value(0)
-            pin2.value(0)
-            time.sleep(7)
-            letter_counter = 0
-            letter_to_send = 'N'
-            break
+        #print("red area = ", red_blob.area())
+        #print("letter to send = ", letter_to_send)
+        if(red_blob.area() > 4000):
+            color_bool = 1
+            if (letter_to_send == 'R'):
+                letter_counter += 1
+            else :
+                #print("here 1")
+                letter_counter = 1
+                letter_to_send = 'R'
+            if (letter_counter >= times_to_send and letter_to_send == 'R' and none_counter >= 20):
+                #led1.on()
+                print("R Found")
+                pin0.value(1)
+                pin1.value(0)
+                pin2.value(0)
+                letter_counter = 0
+                none_counter = 0
+                break
+        #continue
         #print("RED : ")
         #print("Red area = ", red_blob.area())
         #print("cy = ", red_blob.cy())
@@ -82,22 +113,25 @@ while(True):
 
     for green_blob in img.find_blobs([greenthresholds], pixels_threshold=150, area_threshold=100, merge=True):
         # These values depend on the blob not being circular - otherwise they will be shaky.
-        if(green_blob.area() > 1750):
-            print("GREEN Victim Found")
-            img.draw_rectangle(green_blob.rect(), color=(255,255,255))
-            pin0.value(0)
-            pin1.value(1)
-            pin2.value(0)
-            time.sleep(1.5)
-            pin0.value(0)
-            pin1.value(0)
-            pin2.value(0)
-            time.sleep(7)
-            letter_counter = 0
-            letter_to_send = 'N'
-            break
+        if(green_blob.area() > 4000):
+            color_bool = 1
+            if (letter_to_send == 'G'):
+                letter_counter += 1
+            else :
+                letter_counter = 1
+                letter_to_send = 'G'
+            if (letter_counter >= times_to_send and letter_to_send == 'G' and none_counter >= 20):
+                #led1.on()
+                print("G Found")
+                pin0.value(0)
+                pin1.value(1)
+                pin2.value(0)
+                none_counter = 0
+                letter_counter = 0
+                break
+        #continue
         #print("GREEN : ")
-        #print("area = ", green_blob.area())
+        #print("Green area = ", green_blob.area())
         #print("cy = ", green_blob.cy())
         #print("cx = ", green_blob.cx())
         #img.draw_rectangle(green_blob.rect(), color=(255,255,255))
@@ -107,29 +141,33 @@ while(True):
 
     for yellow_blob in img.find_blobs([yellowthresholds], pixels_threshold=150, area_threshold=100, merge=True):
         # These values depend on the blob not being circular - otherwise they will be shaky.
-        if(yellow_blob.area() > 1750):
-            print("YELLOW Victim Found")
-            img.draw_rectangle(yellow_blob.rect(), color=(255,255,255))
-            pin0.value(0)
-            pin1.value(1)
-            pin2.value(1)
-            time.sleep(1.5)
-            pin0.value(0)
-            pin1.value(0)
-            pin2.value(0)
-            time.sleep(7)
-            letter_counter = 0
-            letter_to_send = 'N'
-            break
+        if(yellow_blob.area() > 4000):
+            color_bool = 1
+            if (letter_to_send == 'Y'):
+                letter_counter += 1
+            else :
+                letter_counter = 1
+                letter_to_send = 'Y'
+            if (letter_counter >= times_to_send and letter_to_send == 'Y' and none_counter >= 20):
+                #led1.on()
+                print("Y Found")
+                pin0.value(0)
+                pin1.value(1)
+                pin2.value(1)
+                none_counter = 0
+                letter_counter = 0
+                break
+        #continue
         #print("YELLOW : ")
-        #print("area = ", yellow_blob.area())
+        #print("Yellow area = ", yellow_blob.area())
         #print("cy = ", yellow_blob.cy())
         #print("cx = ", yellow_blob.cx())
         #img.draw_rectangle(yellow_blob.rect(), color=(255,255,255))
         #img.draw_cross(yellow_blob.cx(), yellow_blob.cy(), color=(255,255,255))
         #img.draw_keypoints([(yellow_blob.cx(), yellow_blob.cy(), int(math.degrees(yellow_blob.rotation())))], size=10, color=(255,255,255))
 
-
+    if (color_bool == 1):
+        continue
     img.to_grayscale()
     blobsL = img.find_blobs([blackthreshold], area_threshold=1000)#200
 
@@ -140,11 +178,32 @@ while(True):
 
     if (letter_blob != -1) :
         try:
+            #print("cx = ", letter_blob.cx())
             #print("cy = ", letter_blob.cy())
-            print("area = ", letter_blob.area())
-            if (letter_blob.cy() < 60):
+            #print("Letter area = ", letter_blob.area())
+            #print("Letter density = ", letter_blob.density())
+            print("Width : ", letter_blob[2])
+            print("Height : ", letter_blob[3])
+            #4000
+            if (letter_blob.cy() < 70 or letter_blob.area() > 5000 or letter_blob.area() < 1500
+                or letter_blob.cy() > 180 or letter_blob.density() > 0.75
+                or letter_blob.cx() < 70 or letter_blob.cx() > 250):
+                print("NEGLECTED**")
                 letter_counter = 0
                 letter_to_send = 'N'
+                none_counter = none_counter + 1
+                pin0.value(0)
+                pin1.value(0)
+                pin2.value(0)
+                continue
+            if (letter_blob[3] > 175 or letter_blob[2] < 40):
+                print("NEGLECTED**")
+                letter_counter = 0
+                letter_to_send = 'N'
+                none_counter = none_counter + 1
+                pin0.value(0)
+                pin1.value(0)
+                pin2.value(0)
                 continue
 
             letter = letter_blob.rect()
@@ -154,7 +213,37 @@ while(True):
             sy = letter[1]
             ex = letter[0] + letter[2]
             ey = letter[1] + letter[3]
-
+            w = letter[2]
+            h = letter[3]
+            midx = int(sx + (0.5 * w))
+            midy = int(sy + (0.5 * h))
+            img.draw_rectangle(midx - offset, midy - offset, offset * 2, offset * 2)
+            is_middle = 0
+            counter = 0
+            for x in range(midx-offset, midx+offset):
+                for y in range(midy-offset, midy+offset):
+                    binary = (img.get_pixel(x,y) >= blackthreshold[0] and img.get_pixel(x,y) <= blackthreshold[1])
+                    counter += binary
+            #print("upperLeft_counter", counter)
+            if(counter >= offset_area):
+                is_middle = 1
+                #print("middle counter = ", counter)
+            if(is_middle == 0):
+                print(letter_to_send)
+                if (letter_to_send == 'U'):
+                    letter_counter += 1
+                else :
+                    letter_counter = 1
+                    letter_to_send = 'U'
+                if (letter_counter >= times_to_send - 4 and letter_to_send == 'U' and none_counter >= 20):
+                    #led1.on()
+                    print("U Found")
+                    pin0.value(1)
+                    pin1.value(0)
+                    pin2.value(1)
+                    none_counter = 0
+                    letter_counter = 0
+                continue
             upper_left_corner = [sx, sy]
             lower_left_corner = [sx, ey - offset]
             upper_right_corner = [ex - offset, sy]
@@ -234,73 +323,44 @@ while(True):
                     #print("Lower_Right: ", largest_blob.area())
                     if (largest_blob.area() > offset_area) :
                         is_lower_right = 1'''
-            if (is_upper_left and is_lower_left and is_upper_right and is_lower_right):
-                if (letter_to_send == 'H'):
+            if (is_upper_left or is_lower_left or is_upper_right or is_lower_right):
+                if (letter_to_send == 'H' or letter_to_send == 'S'):
                     letter_counter += 1
                 else :
                     letter_counter = 1
                     letter_to_send = 'H'
                 #uart.write("H")
-                if (letter_counter >= times_to_send and letter_to_send == 'H'):
-                    led3.on()
+                if (letter_counter >= times_to_send - 4 and letter_to_send == 'H' and none_counter >= 20):
+                    #led3.on()
                     print("H Found")
                     pin0.value(0)
                     pin1.value(0)
                     pin2.value(1)
-                    time.sleep(1.5)
-                    pin0.value(0)
-                    pin1.value(0)
-                    pin2.value(0)
-                    time.sleep(7)
+                    none_counter = 0
                     letter_counter = 0
-                    letter_to_send = 'N'
                 continue
-            elif (is_upper_left and is_lower_left == 0 and is_upper_right and is_lower_right == 0):
-                #uart.write("U")
-                if (letter_to_send == 'U'):
-                    letter_counter += 1
-                else :
-                    letter_counter = 1
-                    letter_to_send = 'U'
-                if (letter_counter >= times_to_send and letter_to_send == 'U'):
-                    led1.on()
-                    print("U Found")
-                    pin0.value(1)
-                    pin1.value(0)
-                    pin2.value(1)
-                    time.sleep(1.5)#3
-                    pin0.value(0)
-                    pin1.value(0)
-                    pin2.value(0)
-                    time.sleep(7)
-                    letter_counter = 0
-                    letter_to_send = 'N'
-                continue
-            elif (is_upper_left == 0 and is_lower_left == 0 and is_upper_right == 0 and is_lower_right == 0):
+            else:
                 #uart.write("S")
-                if (letter_to_send == 'S'):
+                if (letter_to_send == 'S' or letter_to_send == 'H'):
                     letter_counter += 1
                 else :
                     letter_counter = 1
                     letter_to_send = 'S'
-                if (letter_counter >= times_to_send and letter_to_send == 'S'):
-                    led1.on()
-                    led3.on()
+                if (letter_counter >= times_to_send - 4 and (letter_to_send == 'S' or letter_to_send == 'H')
+                    and none_counter >= 20):
+                    #led1.on()
+                    #led3.on()
                     print("S Found")
                     pin0.value(1)
                     pin1.value(1)
                     pin2.value(0)
-                    time.sleep(1.5)
-                    pin0.value(0)
-                    pin1.value(0)
-                    pin2.value(0)
-                    time.sleep(7)
+                    none_counter = 0
                     letter_counter = 0
-                    letter_to_send = 'N'
                 continue
         except:
             print("Error")
     print("None is found")
+    none_counter = none_counter + 1
     letter_counter = 0
     letter_to_send = 'N'
     pin0.value(0)
