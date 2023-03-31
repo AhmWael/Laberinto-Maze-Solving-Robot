@@ -1,49 +1,50 @@
+#Importing Needed Libraries
 import sensor, image, time, math, pyb
 from pyb import  Pin
 
-
+#Defining digital pins for communication with arduino
 pin0 = Pin('P8', Pin.OUT_PP, Pin.PULL_NONE)
 pin1 = Pin('P9', Pin.OUT_PP, Pin.PULL_NONE)
 pin2 = Pin('P5', Pin.OUT_PP, Pin.PULL_NONE)
 
+#Defining leds for debugging
 led1 = pyb.LED(1)
 led2 = pyb.LED(2)
 led3 = pyb.LED(3)
 led2.on()
 
-##Competition
+#Initialising thresholds for black, red, green and yellow colors
+
+##Competition thresholds
 blackthreshold = (0, 71)
-
-#blackthreshold = (0, 84)
-#blackthreshold = (0, 87)
-#(0, 45, -128, 127, -128, 127)
-
-#Competition
 redthresholds = (11, 51, 23, 82, 20, 70)
 greenthresholds = (17, 49, -61, -17, -10, 77)
 yellowthresholds = (42, 64, -36, -1, 24, 76)
+#################################################
 
+##Testing thresholds
 
 ##School_Day
+#blackthreshold = (0, 84)
 #redthresholds = (14, 31, 24, 50, -13, 39)
 #greenthresholds = (21, 50, -38, -14, -13, 37)
 #yellowthresholds = (42, 65, -20, -2, 21, 64)
-
 ##School_Night
 #blackthreshold = (0, 41)
 #redthresholds = (21, 68, 28, 82, -12, 66)
 #greenthresholds = (11, 31, -34, -14, -1, 29)
 #yellowthresholds = (34, 82, -23, -1, 26, 79)
+#################################################
 
-
+#Sensor Initialisation
 sensor.reset()
 sensor.set_pixformat(sensor.RGB565)
 sensor.set_framesize(sensor.QVGA)
 sensor.set_vflip(True)
 sensor.skip_frames(time = 500)
-
 clock = time.clock()
 
+#Defining needed variables for algorithm
 offset = 6
 offset_area = 12
 times_to_send = 7
@@ -52,14 +53,16 @@ letter_to_send = 'N'
 color_bool = 0
 none_counter = 20
 
+#Initialising digital pins for communication
 pin0.value(0)
 pin1.value(0)
 pin2.value(0)
 
+
 while(True):
     clock.tick()
     img = sensor.snapshot()
-    img.lens_corr(2.0)
+    img.lens_corr(2.0) #Distortion correction
     led1.off()
     led2.off()
     led3.off()
@@ -75,7 +78,7 @@ while(True):
     #print("letter to send = ", letter_to_send)
 
     if (none_counter < 20):
-        print("just sent a vivtim")
+        print("just sent a victim")
         pin0.value(0)
         pin1.value(0)
         pin2.value(0)
