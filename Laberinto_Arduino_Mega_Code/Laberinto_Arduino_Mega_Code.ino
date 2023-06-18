@@ -1,25 +1,64 @@
 /******* Needed Libraries *******/
 #include <util/atomic.h> // For the ATOMIC_BLOCK macro
 #include <Servo.h>
+#include "Adafruit_VL53L0X.h"
 //////////////////////////////////
+/******* Debug *******/
+#define debug_cam 0
+#define debug_color 0
+#define debug_TOF 0
+#define debug_encoder 0
+#define debug_mapping 0
+///////////////////////
 /******* Motor Driver & Encoder pins *******/
-#define ENCAr 3 // YELLOW
-#define ENCBr 2 // WHITE
-#define r_pwm 12
-#define l_dir 9
-#define ENCAl 21 // YELLOW
-#define ENCBl 20 // WHITE
-#define l_pwm 10
-#define r_dir 11
+#define ENCAr 19 // YELLOW
+#define ENCBr 18 // WHITE
+#define r_pwm 10
+#define r_dir 9
+#define ENCAl 2 // YELLOW
+#define ENCBl 3 // WHITE
+#define l_pwm 12
+#define l_dir 11
 /////////////////////////////////////////////
 #define turn_angle_L 2900
 #define turn_angle_R 2550
 
 Servo myservo; // creating servo object
-/******* Needed variables to recieve TOF readings from serial communication with Arduino Nanos *******/
-String received_dist_1, received_dist_2, received_dist_3;
-int TOF_R, TOF_L, TOF_C;
-///////////////////////////////////////////////////////////////////////////////////////////////////////
+/******* Needed variables to read TOF readings *******/
+//String received_dist_1, received_dist_2, received_dist_3;
+//int TOF_R, TOF_L, TOF_C;
+/******* addresses assigned to each sensor *******/
+// addresses assigned to each sensor
+#define LOX1_ADDRESS 0x30
+#define LOX2_ADDRESS 0x31
+#define LOX3_ADDRESS 0x32
+#define LOX4_ADDRESS 0x33
+#define LOX5_ADDRESS 0x34
+
+int TOF_L, TOF_C_L, TOF_C_R, TOF_R, TOF_R_F;
+
+// set the pins to shutdown
+#define SHT_LOX1 23
+#define SHT_LOX2 27
+#define SHT_LOX3 29
+#define SHT_LOX4 33
+#define SHT_LOX5 25
+
+// objects for the vl53l0x
+Adafruit_VL53L0X lox1 = Adafruit_VL53L0X();
+Adafruit_VL53L0X lox2 = Adafruit_VL53L0X();
+Adafruit_VL53L0X lox3 = Adafruit_VL53L0X();
+Adafruit_VL53L0X lox4 = Adafruit_VL53L0X();
+Adafruit_VL53L0X lox5 = Adafruit_VL53L0X();
+
+// this holds the measurement
+VL53L0X_RangingMeasurementData_t measure1;
+VL53L0X_RangingMeasurementData_t measure2;
+VL53L0X_RangingMeasurementData_t measure3;
+VL53L0X_RangingMeasurementData_t measure4;
+VL53L0X_RangingMeasurementData_t measure5;
+///////////////////////////////////////////////////
+
 int pwm_L = 0;
 int pwm_R = 0;
 
@@ -87,11 +126,37 @@ int tilt_count = 0;
 ////////////////////////////////////////////////////////////
 void setup() {
   // Pins are being set to either an input or an output
-  
+  // Initialise serial communication
   Serial.begin(115200);
   //  Serial1.begin(115200);
   Serial2.begin(115200);
   Serial3.begin(115200);
+
+  //////////////////////////////////////////////////////////////////
+  // wait until serial port opens for native USB devices
+  while (! Serial) { delay(1); }
+
+  pinMode(SHT_LOX1, OUTPUT);
+  pinMode(SHT_LOX2, OUTPUT);
+  pinMode(SHT_LOX3, OUTPUT);
+  pinMode(SHT_LOX4, OUTPUT);
+  pinMode(SHT_LOX5, OUTPUT);
+
+  Serial.println("Shutdown pins inited...");
+
+  digitalWrite(SHT_LOX1, LOW);
+  digitalWrite(SHT_LOX2, LOW);
+  digitalWrite(SHT_LOX3, LOW);
+  digitalWrite(SHT_LOX4, LOW);
+  digitalWrite(SHT_LOX5, LOW);
+
+  Serial.println("Both in reset mode...(pins are low)");
+
+
+  Serial.println("Starting...");
+  setID();
+  //////////////////////////////////////////////////////////////////////
+
   pinMode(l_pwm, OUTPUT);
   pinMode(r_pwm, OUTPUT);
   pinMode(l_dir, OUTPUT);

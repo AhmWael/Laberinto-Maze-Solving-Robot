@@ -15,11 +15,11 @@ void Add_Tile() {
   Minimum_Y = min(Minimum_Y, Y_Position);
   Maximum_X = max(Maximum_X, X_Position);
   Maximum_Y = max(Maximum_Y, Y_Position);
-  if (digitalRead(wall_detector_left) == 0)
+  if (TOF_L < 200)
     Maze[X_Position][Y_Position][(Direction + 3) % 4] = 1;
-  if (TOF_C < 150)
+  if (((TOF_C_L + TOF_C_R) / 2) < 150)
     Maze[X_Position][Y_Position][Direction] = 1;
-  if (TOF_R < 200)
+  if (((TOF_R_F + TOF_R) / 2) < 200)
     Maze[X_Position][Y_Position][(Direction + 1) % 4] = 1;
 }
 

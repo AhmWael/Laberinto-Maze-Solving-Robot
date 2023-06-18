@@ -10,7 +10,7 @@ void MoveWheels (bool dir_l, short speed_l, bool dir_r, int speed_r, String to_p
 void Move(char movement_dir, short tile_length, short turn_angle) {
   read_all_TOFs();
   if (movement_dir == 'F') { // if the robot has to move forward according to the right hand rule
-    while ((((posir + posil) / 2) <= (tile_length * 1)) && (TOF_C > 85)) { // to move one tile forward
+    while ((((posir + posil) / 2) <= (tile_length * 1)) && (((TOF_C_L + TOF_C_R) / 2) > 85)) { // to move one tile forward
       if (tilt && digitalRead(tilt_asc) == 0)
       {
         tilt = 0;
@@ -55,7 +55,7 @@ void Move(char movement_dir, short tile_length, short turn_angle) {
         //        Move('R');
         Move('L', 0, 2950);
         read_all_TOFs();
-        if (TOF_C < 100) {
+        if (((TOF_C_L + TOF_C_R) / 2) < 100) {
           Move('L', 0, 2950);
         }
         else {
@@ -66,13 +66,13 @@ void Move(char movement_dir, short tile_length, short turn_angle) {
         return ;
       }
       //      if (TOF_R > 200) {
-      if (digitalRead(ir_obstacle_left) == 0 && TOF_C > 200) {
+      if (TOF_L < 200 && ((TOF_C_L + TOF_C_R) / 2) > 200) {
         int temp_posil = posil;
         int temp_posir = posir;
-        while (digitalRead(ir_obstacle_left) == 0) { // to turn till the reading of the right TOF is 78
+        while (TOF_L >= 78) { // to turn till the reading of the left TOF is 78
           MoveWheels(HIGH, 200, LOW, 200, "RIGHT");//LOW, 200, HIGH, 200, "Left"
           read_all_TOFs();
-          if (TOF_R < 200 && digitalRead(wall_detector_right) == 0)
+          if (((TOF_R_F + TOF_R) / 2) < 200) // Only read cameras when there is a side wall
           {
             if ((posil + posir) / 2 < 0.5 * tile_length)
               read_Cameras(X_Position, Y_Position);
@@ -109,7 +109,7 @@ void Move(char movement_dir, short tile_length, short turn_angle) {
       //        continue;
       //      }
       //      }
-      if (TOF_R < 200 && digitalRead(wall_detector_right) == 0)
+      if (((TOF_R_F + TOF_R) / 2) < 200)
       {
         if ((posil + posir) / 2 < 0.5 * tile_length)
           read_Cameras(X_Position, Y_Position);
@@ -125,7 +125,7 @@ void Move(char movement_dir, short tile_length, short turn_angle) {
             read_Cameras(X_Position - 1, Y_Position);
         }
       }
-      if (TOF_R < 70)
+      if (((TOF_R_F + TOF_R) / 2) < 70)
       { // adjust quickly to the left
         int temp_posil = posil;
         int temp_posir = posir;
@@ -159,7 +159,7 @@ void Move(char movement_dir, short tile_length, short turn_angle) {
         posir_tmp = posir;
         posil_tmp = posil;
       }
-      else if (digitalRead(wall_detector_right) && TOF_R >= 200)
+      else if (((TOF_R_F + TOF_R) / 2) <= 200)
       {
         if (((posil + posir) / 2) - ((posil_tmp + posir_tmp) / 2) >= 750)
         {
@@ -183,7 +183,7 @@ void Move(char movement_dir, short tile_length, short turn_angle) {
     timer = millis();
     while (millis() - timer <= 500) { // wait half a second
       read_all_TOFs();
-      if (TOF_R <= 200 && digitalRead(wall_detector_right) == 0)//
+      if (((TOF_R_F + TOF_R) / 2) < 200)//
       {
         if ((posil + posir) / 2 < 0.5 * tile_length)
           read_Cameras(X_Position, Y_Position);
@@ -215,7 +215,7 @@ void Move(char movement_dir, short tile_length, short turn_angle) {
     left_turn = 0;
   }
   else if (movement_dir == 'X') { // if the robot has to move forward according to the right hand rule
-    while ((((posir + posil) / 2) <= (tile_length * 1)) && (TOF_C > 85)) { // to move one tile forward
+    while ((((posir + posil) / 2) <= (tile_length * 1)) && (((TOF_C_L + TOF_C_R) / 2) > 85)) { // to move one tile forward
       if (tilt && digitalRead(tilt_asc) == 0)
       {
         tilt = 0;
@@ -276,7 +276,7 @@ void Move(char movement_dir, short tile_length, short turn_angle) {
         while (digitalRead(ir_obstacle_left) == 0) { // to turn till the reading of the right TOF is 78
           MoveWheels(HIGH, 200, LOW, 200, "RIGHT");//LOW, 200, HIGH, 200, "Left"
           read_all_TOFs();
-          if (TOF_R < 200 && digitalRead(wall_detector_right) == 0)
+          if (((TOF_R_F + TOF_R) / 2) < 200)
           {
             if ((posil + posir) / 2 < 0.5 * tile_length)
               read_Cameras(X_Position, Y_Position);
@@ -312,7 +312,7 @@ void Move(char movement_dir, short tile_length, short turn_angle) {
       //        posil = temp_posil;
       //        continue;
       //      }
-      if (TOF_R < 200 && digitalRead(wall_detector_right) == 0)
+      if (((TOF_R_F + TOF_R) / 2) < 200)
       {
         if ((posil + posir) / 2 < 0.5 * tile_length)
           read_Cameras(X_Position, Y_Position);
@@ -363,7 +363,7 @@ void Move(char movement_dir, short tile_length, short turn_angle) {
     timer = millis();
     while (millis() - timer <= 500) { // wait half a second
       read_all_TOFs();
-      if (TOF_R <= 200 && digitalRead(wall_detector_right) == 0)//
+      if (((TOF_R_F + TOF_R) / 2) < 200)//
       {
         if ((posil + posir) / 2 < 0.5 * tile_length)
           read_Cameras(X_Position, Y_Position);
@@ -396,7 +396,7 @@ void Move(char movement_dir, short tile_length, short turn_angle) {
   }
 
   else if (movement_dir == 'Y') { // if the robot has to move forward according to the right hand rule
-    while ((((posir + posil) / 2) <= (tile_length * 1)) && (TOF_C > 85)) { // to move one tile forward
+    while ((((posir + posil) / 2) <= (tile_length * 1)) && (((TOF_C_L + TOF_C_R) / 2) > 85)) { // to move one tile forward
       if (tilt && digitalRead(tilt_asc) == 0)
       {
         tilt = 0;
@@ -457,7 +457,7 @@ void Move(char movement_dir, short tile_length, short turn_angle) {
         while (digitalRead(ir_obstacle_left) == 0) { // to turn till the reading of the right TOF is 78
           MoveWheels(HIGH, 200, LOW, 200, "RIGHT");//LOW, 200, HIGH, 200, "Left"
           read_all_TOFs();
-          if (TOF_R < 200 && digitalRead(wall_detector_right) == 0)
+          if (((TOF_R_F + TOF_R) / 2) < 200)
           {
             if ((posil + posir) / 2 < 0.5 * tile_length)
               read_Cameras(X_Position, Y_Position);
@@ -485,7 +485,7 @@ void Move(char movement_dir, short tile_length, short turn_angle) {
         while (digitalRead(ir_obstacle_right) == 0) { // to turn till the reading of the right TOF is 78
           MoveWheels(LOW, 200, HIGH, 200, "LEFT");//LOW, 200, HIGH, 200, "Left"
           read_all_TOFs();
-          if (TOF_R < 200 && digitalRead(wall_detector_right) == 0)
+          if (((TOF_R_F + TOF_R) / 2) < 200)
           {
             if ((posil + posir) / 2 < 0.5 * tile_length)
               read_Cameras(X_Position, Y_Position);
@@ -507,7 +507,7 @@ void Move(char movement_dir, short tile_length, short turn_angle) {
         posil = temp_posil;
         continue;
       }
-      if (TOF_R < 200 && digitalRead(wall_detector_right) == 0)
+      if (((TOF_R_F + TOF_R) / 2) < 200)
       {
         if ((posil + posir) / 2 < 0.5 * tile_length)
           read_Cameras(X_Position, Y_Position);
@@ -557,7 +557,7 @@ void Move(char movement_dir, short tile_length, short turn_angle) {
     timer = millis();
     while (millis() - timer <= 500) { // wait half a second
       read_all_TOFs();
-      if (TOF_R <= 200 && digitalRead(wall_detector_right) == 0)//
+      if (((TOF_R_F + TOF_R) / 2) < 200)//
       {
         if ((posil + posir) / 2 < 0.5 * tile_length)
           read_Cameras(X_Position, Y_Position);
